@@ -18,11 +18,9 @@
  *     51 Franklin Street, Fifth Floor,
  *     Boston, MA 02110-1301 USA.
  */
+
 package io.paradiddle.walmachine;
 
-import java.math.BigInteger;
-
-public interface LogEntry {
-    BigInteger sequenceNumber();
-    Transition transition();
+public interface Instruction {
+    byte[] bytes();
 }

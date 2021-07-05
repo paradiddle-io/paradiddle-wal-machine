@@ -20,9 +20,6 @@
  */
 package io.paradiddle.walmachine;
 
-import java.util.function.Consumer;
-
-public interface WriteAheadLog<T extends Instruction> {
-    void append(T instruction) throws AppendFailed;
-    void forEach(Consumer<T> consumer);
+public interface Machine<T extends Instruction> {
+    void instruct(T instruction) throws InterruptedException;
 }

@@ -21,5 +21,21 @@
 
 package io.paradiddle.walmachine;
 
-public interface Transition {
+public final class LoggedMachine<T extends Instruction> implements Machine<T> {
+    private final Machine<T> machine;
+    private final WriteAheadLog<T> log;
+
+    public LoggedMachine(
+        final Machine<T> machine,
+        final WriteAheadLog<T> log
+    ) {
+        this.machine = machine;
+        this.log = log;
+    }
+
+    @Override
+    public void instruct(final T instruction) throws InterruptedException {
+        this.log.append(instruction);
+        this.machine.instruct(instruction);
+    }
 }

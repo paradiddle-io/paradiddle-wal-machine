@@ -18,11 +18,32 @@
  *     51 Franklin Street, Fifth Floor,
  *     Boston, MA 02110-1301 USA.
  */
-package io.paradiddle.walmachine;
+package io.paradiddle.walmachine.log;
 
+import io.paradiddle.walmachine.Instruction;
+import io.paradiddle.walmachine.WriteAheadLog;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 
-public interface WriteAheadLog<T extends Instruction> {
-    void append(T instruction) throws AppendFailed;
-    void forEach(Consumer<T> consumer);
+public final class InMemoryWriteAheadLog<T extends Instruction> implements WriteAheadLog<T> {
+    private final List<T> instructions;
+
+    public InMemoryWriteAheadLog() {
+        this(new LinkedList<>());
+    }
+
+    public InMemoryWriteAheadLog(final List<T> instructions) {
+        this.instructions = instructions;
+    }
+
+    @Override
+    public void append(final T instruction) {
+        this.instructions.add(instruction);
+    }
+
+    @Override
+    public void forEach(final Consumer<T> consumer) {
+        this.instructions.forEach(consumer);
+    }
 }
